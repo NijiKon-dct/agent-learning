@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent 开发入门学习路线 · 求职导向</title>
+<style>
+:root{
+  --bg:#0b0e14;
+  --bg-soft:#0f141c;
+  --card:#141a24;
+  --card-2:#182030;
+  --line:#242e3d;
+  --line-soft:#1c2531;
+  --txt:#e6edf3;
+  --txt-2:#9aa7b8;
+  --txt-3:#6b7a8f;
+  --cyan:#22d3ee;
+  --blue:#60a5fa;
+  --purple:#a78bfa;
+  --amber:#fbbf24;
+  --green:#34d399;
+  --red:#f87171;
+  --pink:#f472b6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:15px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* ---------- 顶栏 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(11,14,20,.88);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:650;font-size:15px;letter-spacing:.2px}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  color:var(--txt-2);text-decoration:none;font-size:13px;
+  padding:6px 11px;border-radius:7px;white-space:nowrap;transition:.18s;
+}
+.nav a:hover{color:var(--txt);background:var(--card)}
+
+/* ---------- Hero ---------- */
+.hero{padding:64px 0 44px;border-bottom:1px solid var(--line-soft);position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;top:-140px;left:50%;transform:translateX(-50%);
+  width:820px;height:340px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(34,211,238,.13),transparent 68%);
+  pointer-events:none;
+}
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;letter-spacing:1.4px;color:var(--cyan);
+  border:1px solid rgba(34,211,238,.28);background:rgba(34,211,238,.07);
+  padding:5px 13px;border-radius:99px;margin-bottom:20px;
+}
+h1{font-size:38px;line-height:1.25;font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+h1 .hl{
+  background:linear-gradient(100deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lede{font-size:16.5px;color:var(--txt-2);max-width:760px;line-height:1.8}
+.lede strong{color:var(--txt);font-weight:600}
+
+/* ---------- 结论卡 ---------- */
+.verdict{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px;
+}
+.vcard{
+  background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 18px 16px;
+  position:relative;overflow:hidden;
+}
+.vcard::after{content:"";position:absolute;left:0;top:0;width:3px;height:100%;background:var(--cyan)}
+.vcard.b::after{background:var(--purple)}
+.vcard.c::after{background:var(--amber)}
+.vcard .num{font-size:11px;letter-spacing:1.2px;color:var(--txt-3);margin-bottom:8px}
+.vcard p{font-size:14px;line-height:1.7;color:var(--txt-2)}
+.vcard p strong{color:var(--txt)}
+
+/* ---------- 章节 ---------- */
+section{padding:56px 0;border-bottom:1px solid var(--line-soft)}
+.sec-head{margin-bottom:30px}
+.sec-tag{
+  font-size:11.5px;letter-spacing:1.4px;color:var(--cyan);
+  border:1px solid rgba(34,211,238,.25);padding:3px 10px;border-radius:5px;
+  display:inline-block;margin-bottom:12px;
+}
+h2{font-size:26px;font-weight:680;letter-spacing:-.2px;margin-bottom:10px}
+.sec-sub{color:var(--txt-2);font-size:15px;max-width:800px}
+h3{font-size:17px;font-weight:640;margin:30px 0 12px;display:flex;align-items:center;gap:9px}
+h3::before{content:"";width:3px;height:15px;background:var(--cyan);border-radius:2px}
+h4{font-size:15px;font-weight:620;margin:20px 0 8px;color:var(--txt)}
+p{margin-bottom:12px;color:var(--txt-2)}
+p strong,li strong{color:var(--txt);font-weight:600}
+
+/* ---------- 表格 ---------- */
+.tbl-wrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:11px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:600px}
+th{
+  background:var(--card-2);color:var(--txt);text-align:left;font-weight:620;
+  padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+td{padding:11px 14px;border-bottom:1px solid var(--line-soft);color:var(--txt-2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(96,165,250,.045)}
+td strong{color:var(--txt)}
+
+/* ---------- 徽章 ---------- */
+.tag{
+  display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:5px;
+  font-weight:600;white-space:nowrap;
+}
+.t-must{background:rgba(248,113,113,.14);color:#fca5a5;border:1px solid rgba(248,113,113,.25)}
+.t-core{background:rgba(52,211,153,.13);color:#6ee7b7;border:1px solid rgba(52,211,153,.24)}
+.t-plus{background:rgba(167,139,250,.13);color:#c4b5fd;border:1px solid rgba(167,139,250,.24)}
+.t-skip{background:rgba(107,122,143,.13);color:var(--txt-3);border:1px solid rgba(107,122,143,.22)}
+.t-new{background:rgba(251,191,36,.14);color:#fcd34d;border:1px solid rgba(251,191,36,.26)}
+
+/* ---------- 阶段卡 ---------- */
+.phase{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:0;margin-bottom:18px;overflow:hidden;
+}
+.phase-hd{
+  display:flex;align-items:center;gap:14px;padding:18px 22px;
+  border-bottom:1px solid var(--line-soft);background:var(--card-2);
+  flex-wrap:wrap;
+}
+.phase-badge{
+  width:40px;height:40px;flex:0 0 40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:720;font-size:15px;color:#0b0e14;
+}
+.p1 .phase-badge{background:var(--cyan)}
+.p2 .phase-badge{background:var(--blue)}
+.p3 .phase-badge{background:var(--purple)}
+.p4 .phase-badge{background:var(--amber)}
+.phase-title{font-size:17px;font-weight:660;flex:1;min-width:200px}
+.phase-when{font-size:12.5px;color:var(--txt-3);font-variant-numeric:tabular-nums}
+.phase-bd{padding:20px 22px 22px}
+.phase-goal{
+  font-size:14px;color:var(--txt);background:rgba(96,165,250,.07);
+  border-left:3px solid var(--blue);border-radius:0 8px 8px 0;
+  padding:11px 14px;margin-bottom:18px;line-height:1.7;
+}
+.phase-goal b{color:var(--blue)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.mini-h{
+  font-size:12px;letter-spacing:1px;color:var(--txt-3);font-weight:600;
+  margin-bottom:9px;display:flex;align-items:center;gap:7px;
+}
+.mini-h::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--txt-3)}
+ul{list-style:none;margin-bottom:6px}
+ul li{
+  position:relative;padding-left:17px;margin-bottom:7px;
+  font-size:13.8px;color:var(--txt-2);line-height:1.65;
+}
+ul li::before{
+  content:"";position:absolute;left:3px;top:9px;
+  width:4px;height:4px;border-radius:50%;background:var(--txt-3);
+}
+ul.check li::before{
+  content:"✓";position:absolute;left:0;top:0;color:var(--green);
+  background:none;font-size:12px;font-weight:700;
+}
+ul.x li::before{
+  content:"✕";position:absolute;left:0;top:0;color:var(--red);
+  background:none;font-size:12px;font-weight:700;
+}
+code{
+  font-family:ui-monospace,SFMono-Regular,"SF Mono",Consolas,monospace;
+  font-size:12.5px;background:var(--bg-soft);border:1px solid var(--line);
+  padding:1px 6px;border-radius:5px;color:var(--cyan);
+}
+
+.deliver{
+  margin-top:16px;padding:14px 16px;border-radius:10px;
+  background:rgba(52,211,153,.055);border:1px dashed rgba(52,211,153,.3);
+}
+.deliver .lbl{
+  font-size:11.5px;letter-spacing:1.1px;color:var(--green);
+  font-weight:660;margin-bottom:6px;
+}
+.deliver p{font-size:13.8px;color:var(--txt-2);margin:0}
+.deliver p strong{color:var(--txt)}
+.gate{
+  margin-top:12px;font-size:13.5px;color:var(--txt-2);
+  padding:11px 15px;background:var(--bg-soft);border-radius:9px;border:1px solid var(--line-soft);
+}
+.gate b{color:var(--amber)}
+
+/* ---------- 提示框 ---------- */
+.callout{
+  border-radius:11px;padding:15px 18px;margin:18px 0;font-size:14px;line-height:1.75;
+  border:1px solid;
+}
+.c-warn{background:rgba(251,191,36,.06);border-color:rgba(251,191,36,.26)}
+.c-warn .ct{color:var(--amber);font-weight:660;margin-bottom:6px;font-size:13.5px}
+.c-info{background:rgba(96,165,250,.06);border-color:rgba(96,165,250,.24)}
+.c-info .ct{color:var(--blue);font-weight:660;margin-bottom:6px;font-size:13.5px}
+.c-good{background:rgba(52,211,153,.06);border-color:rgba(52,211,153,.24)}
+.c-good .ct{color:var(--green);font-weight:660;margin-bottom:6px;font-size:13.5px}
+.callout p{margin:0;color:var(--txt-2)}
+.callout p strong{color:var(--txt)}
+
+/* ---------- 项目卡 ---------- */
+.proj{
+  background:var(--card);border:1px solid var(--line);border-radius:13px;
+  padding:20px 22px;margin-bottom:15px;
+}
+.proj-hd{display:flex;align-items:baseline;gap:11px;margin-bottom:6px;flex-wrap:wrap}
+.proj-lv{
+  font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;letter-spacing:.5px;
+}
+.lv1{background:rgba(52,211,153,.15);color:#6ee7b7}
+.lv2{background:rgba(251,191,36,.15);color:#fcd34d}
+.lv3{background:rgba(248,113,113,.15);color:#fca5a5}
+.proj-name{font-size:16.5px;font-weight:650}
+.proj-desc{font-size:14px;color:var(--txt-2);margin-bottom:13px;line-height:1.7}
+.proj-meta{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13.5px}
+.proj-meta dt{color:var(--txt-3);font-weight:600;white-space:nowrap}
+.proj-meta dd{color:var(--txt-2)}
+
+/* ---------- 清单 ---------- */
+.qa{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 20px;margin:14px 0}
+.qa-item{padding:14px 0;border-bottom:1px solid var(--line-soft)}
+.qa-item:last-child{border-bottom:none}
+.qa-q{font-size:14.5px;font-weight:600;color:var(--txt);margin-bottom:7px}
+.qa-a{font-size:13.8px;color:var(--txt-2);line-height:1.75}
+.qa-a strong{color:var(--txt)}
+
+/* ---------- 页脚 ---------- */
+footer{padding:34px 0 46px;color:var(--txt-3);font-size:12.5px;text-align:center}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:860px){
+  .verdict{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  h1{font-size:28px}
+  h2{font-size:22px}
+  .wrap{padding:0 16px}
+  .hero{padding:44px 0 32px}
+  .nav{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>Agent 开发 · 求职路线</div>
+    <nav class="nav">
+      <a href="#s0">岗位定位</a>
+      <a href="#s1">技能地图</a>
+      <a href="#s2">16周路线</a>
+      <a href="#s3">框架选型</a>
+      <a href="#s4">MCP</a>
+      <a href="#s5">生产化</a>
+      <a href="#s6">作品集</a>
+      <a href="#s7">投递策略</a>
+      <a href="#s8">面试考点</a>
+      <a href="#s9">避坑</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">◆ 2026 版 · 求职优先导向</div>
+    <h1>从应届生到<span class="hl">能拿 Offer 的 Agent 开发工程师</span></h1>
+    <p class="lede">
+      这份路线的唯一目标是<strong>让你在最短时间内具备可投递、可面试、可谈薪的能力</strong>，不是让你系统学完 AI。
+      所有内容按「招聘方是否真的会为此买单」排序，能砍的都砍了。
+    </p>
+    <div class="verdict">
+      <div class="vcard">
+        <div class="num">核 心 判 断</div>
+        <p>这是 <strong>2026 校招缺口最大、对本科生最友好的 AI 赛道</strong>。它考的是后端工程 + LLM 特性理解，<strong>不需要硕士、不需要发论文、不需要预训练模型</strong>。软件工程背景是优势不是劣势。</p>
+      </div>
+      <div class="vcard b">
+        <div class="num">真 正 的 门 槛</div>
+        <p>不是会不会写 Prompt，而是<strong>能不能让 Agent 稳定运行</strong>。行业数据：<strong>88% 的生产级 Agent 部署都出过事故</strong>。会搭 Demo 的人一抓一把，能把 Demo 做成服务的人很少。</p>
+      </div>
+      <div class="vcard c">
+        <div class="num">最 快 的 路 径</div>
+        <p><strong>3 个可展示项目 + 1 个持续更新的技术博客</strong>，胜过十张网课结课证书。当 HR 搜你名字能搜到内容时，学历的权重就会下降。</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 0 岗位定位 ============ -->
+<section id="s0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 0</span>
+      <h2>先搞清楚你在竞争哪个岗位</h2>
+      <p class="sec-sub">"Agent 开发"在招聘市场上至少是三种完全不同的工作。选错了方向，学得再努力也进不去面试间。</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th style="width:150px">岗位类型</th><th>实际工作内容</th><th style="width:110px">学历门槛</th><th style="width:130px">对你的建议</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Agent 应用开发</strong><br><span style="font-size:12px;color:var(--txt-3)">Application / AI Engineer</span></td>
+            <td>基于现成商用或开源大模型，用 LangGraph 等框架搭建业务智能体：知识库问答、数据分析助手、智能客服、办公自动化。本质是 <strong>后端工程 + LLM 集成</strong>。</td>
+            <td>本科为主<br><span style="color:var(--green)">✓ 大量校招岗</span></td>
+            <td><span class="tag t-must">主攻方向</span></td>
+          </tr>
+          <tr>
+            <td><strong>Agent 平台 / Infra</strong><br><span style="font-size:12px;color:var(--txt-3)">Runtime / Platform</span></td>
+            <td>做 Agent Runtime、沙箱执行环境、多 Agent 调度框架、记忆与上下文抽象层、可观测平台。偏分布式系统。</td>
+            <td>本科+，但偏好 2-3 年后端经验</td>
+            <td><span class="tag t-plus">工作的第 2-3 年再切</span></td>
+          </tr>
+          <tr>
+            <td><strong>大模型算法</strong><br><span style="font-size:12px;color:var(--txt-3)">LLM Research / SFT</span></td>
+            <td>预训练、SFT、RLHF、模型压缩、推理优化。要读论文、跑实验。</td>
+            <td><span style="color:var(--red)">硕士起步</span></td>
+            <td><span class="tag t-skip">别碰（性价比极低）</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout c-good">
+      <div class="ct">✓ 为什么软件工程背景反而是加分项</div>
+      <p>翻遍 2026 年的 Agent 岗位 JD，高频出现的是：<strong>异步编程、接口设计、状态管理、缓存、队列、Docker、可观测性、成本控制</strong>——这些全是传统后端技能。
+      而行业里真正的共识是：生产级 Agent <strong>"是一个最不可预测的组件是语言模型的分布式系统"</strong>。
+      招人的公司最缺的不是懂 Transformer 的人，是懂<strong>局部失败、幂等性、爆炸半径</strong>的人。这正是科班工程训练给的东西。</p>
+    </div>
+
+    <div class="callout c-warn">
+      <div class="ct">⚠ 一个必须提前接受的现实</div>
+      <p>大部分 JD 写着"1-3 年经验"、"至少参与过一个完整 Agent 系统开发"。你没有工作经验，唯一的破解方式是<strong>用项目证明你做过完整链路</strong>——
+      从任务定义 → 工具封装 → 编排 → 评估 → 部署上线，而不是只交一个 <code>main.py</code>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1 技能地图 ============ -->
+<section id="s1">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 1</span>
+      <h2>技能地图：六层金字塔</h2>
+      <p class="sec-sub">从下往上按优先级排列。<strong>底下三层决定你能不能过简历关，上面三层决定你能不能过技术面。</strong></p>
+    </div>
+
+    <svg viewBox="0 0 900 420" style="width:100%;height:auto;display:block;margin:8px 0 4px" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g6" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#fbbf24" stop-opacity=".20"/><stop offset="100%" stop-color="#fbbf24" stop-opacity=".05"/></linearGradient>
+        <linearGradient id="g5" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a78bfa" stop-opacity=".24"/><stop offset="100%" stop-color="#a78bfa" stop-opacity=".06"/></linearGradient>
+        <linearGradient id="g4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22d3ee" stop-opacity=".26"/><stop offset="100%" stop-color="#22d3ee" stop-opacity=".06"/></linearGradient>
+        <linearGradient id="g3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#60a5fa" stop-opacity=".28"/><stop offset="100%" stop-color="#60a5fa" stop-opacity=".07"/></linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#34d399" stop-opacity=".30"/><stop offset="100%" stop-color="#34d399" stop-opacity=".08"/></linearGradient>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#9aa7b8" stop-opacity=".32"/><stop offset="100%" stop-color="#9aa7b8" stop-opacity=".09"/></linearGradient>
+      </defs>
+
+      <!-- L6 -->
+      <path d="M450 24 L742 82 L742 116 L450 74 L158 116 L158 82 Z" fill="url(#g6)" stroke="#fbbf24" stroke-opacity=".5" stroke-width="1.2"/>
+      <text x="450" y="58" text-anchor="middle" font-size="14.5" font-weight="650" fill="#e6edf3" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">L6 · 生产化与 AgentOps</text>
+      <text x="450" y="76" text-anchor="middle" font-size="11.5" fill="#9aa7b8" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">Eval 评估体系 · Tracing 可观测 · 成本控制 · 安全与权限</text>
+      <text x="770" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#fbbf24" font-family="system-ui,sans-serif">分水岭</text>
+
+      <!-- L5 -->
+      <path d="M450 82 L742 140 L742 174 L450 132 L158 174 L158 140 Z" fill="url(#g5)" stroke="#a78bfa" stroke-opacity=".5" stroke-width="1.2"/>
+      <text x="450" y="116" text-anchor="middle" font-size="14.5" font-weight="650" fill="#e6edf3" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">L5 · 编排与多 Agent</text>
+      <text x="450" y="134" text-anchor="middle" font-size="11.5" fill="#9aa7b8" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">LangGraph 状态图 · 规划与执行 · 记忆机制 · HIL 人工介入</text>
+
+      <!-- L4 -->
+      <path d="M450 140 L742 198 L742 232 L450 190 L158 232 L158 198 Z" fill="url(#g4)" stroke="#22d3ee" stroke-opacity=".5" stroke-width="1.2"/>
+      <text x="450" y="174" text-anchor="middle" font-size="14.5" font-weight="650" fill="#e6edf3" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">L4 · MCP 协议</text>
+      <text x="450" y="192" text-anchor="middle" font-size="11.5" fill="#9aa7b8" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">Tools / Resources / Prompts · 自建 MCP Server</text>
+      <text x="128" y="220" text-anchor="end" font-size="11" font-weight="700" fill="#22d3ee" font-family="system-ui,sans-serif">2026 新增</text>
+
+      <!-- L3 -->
+      <path d="M450 198 L742 256 L742 290 L450 248 L158 290 L158 256 Z" fill="url(#g3)" stroke="#60a5fa" stroke-opacity=".5" stroke-width="1.2"/>
+      <text x="450" y="232" text-anchor="middle" font-size="14.5" font-weight="650" fill="#e6edf3" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">L3 · Agent 核心机制</text>
+      <text x="450" y="250" text-anchor="middle" font-size="11.5" fill="#9aa7b8" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">Function Calling · ReAct/Plan-Execute · Context Engineering</text>
+
+      <!-- L2 -->
+      <path d="M450 256 L742 314 L742 348 L450 306 L158 348 L158 314 Z" fill="url(#g2)" stroke="#34d399" stroke-opacity=".5" stroke-width="1.2"/>
+      <text x="450" y="290" text-anchor="middle" font-size="14.5" font-weight="650" fill="#e6edf3" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">L2 · RAG 全链路</text>
+      <text x="450" y="308" text-anchor="middle" font-size="11.5" fill="#9aa7b8" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">解析 · 切分 · 向量化 · 混合检索 · 重排 · 引用溯源</text>
+
+      <!-- L1 -->
+      <path d="M450 314 L742 372 L742 406 L450 364 L158 406 L158 372 Z" fill="url(#g1)" stroke="#9aa7b8" stroke-opacity=".45" stroke-width="1.2"/>
+      <text x="450" y="348" text-anchor="middle" font-size="14.5" font-weight="650" fill="#e6edf3" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">L1 · 工程底座</text>
+      <text x="450" y="366" text-anchor="middle" font-size="11.5" fill="#9aa7b8" font-family="system-ui,-apple-system,'Microsoft YaHei',sans-serif">Python 异步 · FastAPI/SSE · MySQL/Redis/向量库 · Git/Docker/Linux</text>
+    </svg>
+
+    <div class="callout c-info" style="margin-top:26px">
+      <div class="ct">◆ 关于学习顺序的一个反直觉建议</div>
+      <p>几乎所有教程都让你从 LangChain 开始。<strong>不要。</strong>先用原始 API 手写一遍 Agent 循环，踩一遍坑（工具调用失败怎么重试、上下文怎么不炸、循环怎么停下来），
+      再去学框架。这样你在面试时能讲清楚"框架到底在替我解决什么问题"——这个问题<strong>能直接区分出用过框架的人和懂 Agent 的人</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 16周路线 ============ -->
+<section id="s2">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 2</span>
+      <h2>四阶段 16 周执行计划</h2>
+      <p class="sec-sub">按每天有效投入 3-4 小时估算。每个阶段都有<strong>明确的产出物</strong>和<strong>过关标准</strong>——没达标就不要往下走，赶进度是这条路线上最常见的失败方式。</p>
+    </div>
+
+    <!-- 阶段 1 -->
+    <div class="phase p1">
+      <div class="phase-hd">
+        <div class="phase-badge">P1</div>
+        <div class="phase-title">工程底座 + 成为重度用户</div>
+        <div class="phase-when">第 1–3 周</div>
+      </div>
+      <div class="phase-bd">
+        <div class="phase-goal">
+          <b>目标：</b>把"会写代码的应届生"升级成"能写 AI 后端服务的应届生"，同时建立对 Agent 的体感——你没深度用过 Agent，就设计不出好用的 Agent。
+        </div>
+        <div class="grid2">
+          <div>
+            <div class="mini-h">学 什 么</div>
+            <ul>
+              <li><strong>Python 异步</strong>：<code>async/await</code>、类型注解（主流框架重度依赖）、异常与重试、Pydantic 模型</li>
+              <li><strong>FastAPI</strong>：RESTful 接口、<strong>SSE 流式输出</strong>（打字机效果全靠它）、请求校验、限流、鉴权</li>
+              <li><strong>大模型 API</strong>：申请 Key，跑通首次调用、流式返回、结构化输出（JSON Mode）</li>
+              <li><strong>工具链</strong>：Git 规范提交、Linux 常用命令、Docker 基础</li>
+              <li><strong>当重度用户</strong>：日常用 Cursor / Claude Code 写代码；用 Coze 或 Dify 搭一个带插件的 Bot 玩透</li>
+            </ul>
+          </div>
+          <div>
+            <div class="mini-h">为 什 么 这 么 安 排</div>
+            <ul>
+              <li><strong>异步是硬性要求</strong>：Agent 场景天然是"一直在等模型回包"，JD 里 async 几乎必考</li>
+              <li><strong>SSE 是显学</strong>：面试高频问"怎么实现流式输出"，答不出 HTTP 分块传输基本凉一半</li>
+              <li><strong>不做过度投入</strong>：数据结构算法只需刷中等难度，HTTP / REST 规范要懂，不用啃完整个 CS 课程体系</li>
+              <li><strong>用户视角很关键</strong>：知道 Agent 在哪里卡顿、在哪里犯蠢，是后面做工具设计和上下文管理的前提</li>
+            </ul>
+          </div>
+        </div>
+        <div class="deliver">
+          <div class="lbl">◆ 产 出 物</div>
+          <p>GitHub 上出现稳定 commit 记录；一个用 FastAPI 包装的<strong>支持 SSE 流式输出的大模型对话接口</strong>，能本地跑通并有 README。</p>
+        </div>
+        <div class="gate"><b>过关标准 →</b> 能在 30 分钟内从零搭出一个带流式输出的对话接口，并解释清楚 SSE 与普通 HTTP 响应的区别。</div>
+      </div>
+    </div>
+
+    <!-- 阶段 2 -->
+    <div class="phase p2">
+      <div class="phase-hd">
+        <div class="phase-badge">P2</div>
+        <div class="phase-title">手写 Agent + RAG 全链路</div>
+        <div class="phase-when">第 4–8 周</div>
+      </div>
+      <div class="phase-bd">
+        <div class="phase-goal">
+          <b>目标：</b>不依赖任何框架，从零实现 Agent 的核心循环。这一步是你和"只会调 LangChain"的人拉开差距的地方，也是面试里最有话说的部分。
+        </div>
+        <div class="grid2">
+          <div>
+            <div class="mini-h">学 什 么</div>
+            <ul>
+              <li><strong>手写 ReAct 循环</strong>：Thought → Action → Observation → 终止条件 → 防死循环。纯 <code>while</code> 循环 + 字符串解析，不用任何框架</li>
+              <li><strong>Function Calling / Tool Use</strong>：工具 Schema 设计、参数校验、调用失败的错误回传（<strong>错误信息要写给模型看，让人能恢复</strong>）</li>
+              <li><strong>Context Engineering</strong>：这已经取代了 Prompt Engineering 成为更高杠杆的技能——决定什么信息在什么时机进入上下文窗口</li>
+              <li><strong>RAG 全链路</strong>：文档解析 → 切分策略 → Embedding → 向量库（入门 Chroma，进阶 Qdrant/Milvus）→ 混合检索 → Rerank 重排 → <strong>引用溯源</strong></li>
+              <li><strong>失败模式</strong>：识别幻觉、上下文溢出、工具误用、无限循环这 5 类 Agent 典型故障</li>
+            </ul>
+          </div>
+          <div>
+            <div class="mini-h">关 键 判 断</div>
+            <ul>
+              <li><strong>工具设计是 2026 年的核心新技能</strong>：写一个 MCP 工具很容易，写一个模型在模糊场景下也能用对的工具很难。要像 API 设计师 + 老师一样思考：名字清晰、输入收窄、描述排除错误解读、错误信息可恢复</li>
+              <li><strong>RAG 不是"塞文档进向量库"</strong>：企业最在意的是<strong>可追溯性和幻觉率</strong>。你的项目必须做到回答带引用来源</li>
+              <li><strong>别急着上复杂架构</strong>：先把 happy path 跑通，再逐步加健壮性</li>
+              <li><strong>存储层</strong>：MySQL 存结构化（对话历史），Redis 存临时状态，向量库存长期记忆</li>
+            </ul>
+          </div>
+        </div>
+        <div class="deliver">
+          <div class="lbl">◆ 产 出 物</div>
+          <p><strong>项目 ①</strong>：不依赖框架的手写 ReAct Agent，带 3-5 个工具，有完整的错误处理与循环保护，README 里画清楚架构图。<br>
+          <strong>项目 ②</strong>：带引用溯源的知识库问答 Agent（可传自己的文档，回答标注来源段落）。</p>
+        </div>
+        <div class="gate"><b>过关标准 →</b> 能手写一个 200 行以内的 ReAct 循环；能说清楚分块策略、混合检索、Rerank 各自解决什么问题；能解释为什么 RAG 会答错。</div>
+      </div>
+    </div>
+
+    <!-- 阶段 3 -->
+    <div class="phase p3">
+      <div class="phase-hd">
+        <div class="phase-badge">P3</div>
+        <div class="phase-title">框架 + MCP + 多 Agent</div>
+        <div class="phase-when">第 9–12 周</div>
+      </div>
+      <div class="phase-bd">
+        <div class="phase-goal">
+          <b>目标：</b>用工业级框架把 P2 的手写代码重构成可维护系统，并掌握 MCP——这是 2026 年 JD 里出现频率增长最快的关键词。
+        </div>
+        <div class="grid2">
+          <div>
+            <div class="mini-h">学 什 么</div>
+            <ul>
+              <li><strong>LangGraph（主攻）</strong>：State / Node / Edge / 条件分支 / 并行节点 / <strong>Checkpoint 持久化</strong> / Time-travel 调试 / <strong>Human-in-the-loop</strong></li>
+              <li><strong>MCP 协议</strong>：Host / Client / Server 架构，三大原语 Tools / Resources / Prompts，stdio 与 HTTP+SSE 传输</li>
+              <li><strong>动手写 MCP Server</strong>：用 TypeScript 或 Python 写一个（比如"读公司内部文档"），<strong>发布并能在 Claude Code / Cursor 里跑起来</strong></li>
+              <li><strong>CrewAI（了解即可）</strong>：角色化多 Agent，20 行出一个原型，适合快速验证想法</li>
+              <li><strong>多 Agent 协作</strong>：任务分解、Agent 间通信、Supervisor 模式、共享状态与冲突处理</li>
+            </ul>
+          </div>
+          <div>
+            <div class="mini-h">关 键 判 断</div>
+            <ul>
+              <li><strong>LangGraph 是求职首选</strong>：生产成熟度最高、JD 命中率最高、LangSmith 生态最完整。虽然学习曲线最陡，但它值得</li>
+              <li><strong>MCP 的战略价值</strong>："一次写好工具，跨所有 MCP 兼容系统复用"，正在成为 Agent 连接外部世界的事实标准，就像 REST 之于 Web 服务</li>
+              <li><strong>别把 Dify/Coze 当主业</strong>：低代码是公司给非工程师用的，你靠它拿不到溢价，而且抽象层很快会变成天花板。<strong>会用、能讲清楚利弊就够</strong></li>
+              <li><strong>框架不是万能的</strong>：单 Agent + 2-3 个工具的线性流程，手写往往优于上框架。面试时能讲出这个判断，是加分项</li>
+            </ul>
+          </div>
+        </div>
+        <div class="deliver">
+          <div class="lbl">◆ 产 出 物</div>
+          <p><strong>项目 ③</strong>：用 LangGraph 重构的<strong>多 Agent 系统</strong>（例如：研究助理 = 规划 → 搜索 → 整理 → 出报告），带 checkpoint 断点续跑和人工审核节点。<br>
+          <strong>项目 ④</strong>：一个发布出去的 MCP Server（npm 或 PyPI），最好带 100+ star 的野心。</p>
+        </div>
+        <div class="gate"><b>过关标准 →</b> 能画出 LangGraph 的状态图并解释每个节点的职责；能手写一个可用的 MCP Server 并说清三大原语；能说清什么时候不该用框架。</div>
+      </div>
+    </div>
+
+    <!-- 阶段 4 -->
+    <div class="phase p4">
+      <div class="phase-hd">
+        <div class="phase-badge">P4</div>
+        <div class="phase-title">生产化 + 求职冲刺</div>
+        <div class="phase-when">第 13–16 周</div>
+      </div>
+      <div class="phase-bd">
+        <div class="phase-goal">
+          <b>目标：</b>把项目从"能跑"改造成"敢上线"。<strong>这是"Demo 能跑"和"拿 offer"之间真正的分水岭</strong>——企业招的是能让 Agent 稳定运行的人，不是能写 Demo 的人。
+        </div>
+        <div class="grid2">
+          <div>
+            <div class="mini-h">学 什 么 · 生 产 化</div>
+            <ul>
+              <li><strong>可观测性 Tracing</strong>：LangSmith / Langfuse（开源可自托管，推荐）/ Arize Phoenix。每一次模型调用、工具调用、状态转移都要可回放</li>
+              <li><strong>评估 Eval</strong>：这是 Agent 的"单元测试"。构建 20-50 条评测集，用 LLM-as-Judge + 代码断言，跑回归，<strong>把 eval 挂进 CI 当发布门禁</strong></li>
+              <li><strong>成本控制</strong>：Token 监控、Prompt Caching、模型分级路由（简单的活给小模型）</li>
+              <li><strong>安全</strong>：工具权限最小化、危险操作审批门（HIL）、<strong>把工具返回值当作不可信输入处理</strong></li>
+              <li><strong>部署</strong>：FastAPI 包装 + Docker + CI/CD + 云服务器上线，全链路亲手走一遍</li>
+            </ul>
+          </div>
+          <div>
+            <div class="mini-h">学 什 么 · 求 职</div>
+            <ul>
+              <li><strong>简历改造</strong>：把"使用了 LangChain"改成"通过 XX 策略将幻觉率从 X% 降到 Y%"——全部量化</li>
+              <li><strong>技术博客</strong>：写踩坑记录和架构设计思路（知乎/掘金/公众号）。<strong>面试官真的会当场打开你的博客看</strong>，这是绕过学历关的利器</li>
+              <li><strong>开源贡献</strong>：给主流 Agent 框架提 PR，哪怕是文档修复</li>
+              <li><strong>投递节奏</strong>：先投 10 家练手公司试错，复盘面试问题，再冲目标公司</li>
+            </ul>
+          </div>
+        </div>
+        <div class="deliver">
+          <div class="lbl">◆ 产 出 物</div>
+          <p>你的主项目必须有这三样东西：<strong>一个 Tracing 面板截图、一份 Eval 报告、一张成本账单</strong>——而不是只有一个能跑的 <code>main.py</code>。
+          外加一篇复盘博客 + 一份已投出并迭代过 2 版的简历。</p>
+        </div>
+        <div class="gate"><b>过关标准 →</b> 能完整讲出一次线上故障的排查过程：从 Trace 定位到具体节点、判断是工具描述歧义还是模型推理问题、改完后如何加进 eval 防回归。</div>
+      </div>
+    </div>
+
+    <div class="callout c-good">
+      <div class="ct">✓ 关于 P4 的一点强调</div>
+      <p>大多数自学路线到 P3 就结束了，这恰恰是<strong>你最容易超车的地方</strong>。行业数据显示 88% 的生产级 Agent 部署都报告过事故，
+      而绝大多数应届生连"Agent 怎么做单元测试"都答不上来。<strong>只要你能在面试里讲清楚 Eval 体系怎么搭、Trace 怎么看，你就已经超过 80% 的竞争者了。</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 框架选型 ============ -->
+<section id="s3">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 3</span>
+      <h2>2026 框架选型：别再纠结</h2>
+      <p class="sec-sub">框架选择的核心原则：<strong>选 JD 命中率最高的那个深挖，其余的了解定位即可。</strong>不要用"我懂五个框架"去面试，要用"我把一个框架用到了生产级"去面试。</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>框架</th><th>定位</th><th style="width:90px">学习曲线</th><th style="width:100px">MCP 支持</th><th style="width:150px">对你的优先级</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LangGraph</strong></td>
+            <td>基于图的有状态编排，生产成熟度最高。Checkpoint 持久化、Time-travel 调试、HIL 一等公民。被 Klarna、Uber、LinkedIn 用在生产环境。</td>
+            <td><span style="color:var(--red)">陡</span></td>
+            <td>支持</td>
+            <td><span class="tag t-must">主攻 · 必须深挖</span></td>
+          </tr>
+          <tr>
+            <td><strong>Claude Agent SDK</strong></td>
+            <td>Anthropic 官方，与 Claude Code 同源。沙箱执行、MCP 集成深度最好（原生支持 200+ MCP Server）。</td>
+            <td>中低</td>
+            <td><span style="color:var(--green)">原生最深</span></td>
+            <td><span class="tag t-core">次选 · 值得会用</span></td>
+          </tr>
+          <tr>
+            <td><strong>OpenAI Agents SDK</strong></td>
+            <td>OpenAI 官方轻量框架，Handoff 架构，内置 guardrails / tracing / sessions，上手最快。</td>
+            <td>低</td>
+            <td>支持</td>
+            <td><span class="tag t-core">会用即可</span></td>
+          </tr>
+          <tr>
+            <td><strong>CrewAI</strong></td>
+            <td>角色化多 Agent 协作，2-4 小时出原型，心智模型直观。缺点是复杂生产系统会触顶。</td>
+            <td>低</td>
+            <td>部分</td>
+            <td><span class="tag t-core">快速原型用</span></td>
+          </tr>
+          <tr>
+            <td><strong>LlamaIndex</strong></td>
+            <td>以数据/RAG 为核心，检索能力强。</td>
+            <td>中</td>
+            <td>部分</td>
+            <td><span class="tag t-plus">做知识库时补</span></td>
+          </tr>
+          <tr>
+            <td><strong>Dify / Coze</strong></td>
+            <td>低代码可视化，60k+ star。出 Demo 极快，但抽象层很快变天花板，生产调试困难。</td>
+            <td>极低</td>
+            <td>支持</td>
+            <td><span class="tag t-skip">了解即可 · 别当主业</span></td>
+          </tr>
+          <tr>
+            <td><strong>AutoGen / AG2</strong></td>
+            <td>多智能体对话研究导向。</td>
+            <td>中</td>
+            <td>部分</td>
+            <td><span class="tag t-skip">跳过</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout c-info">
+      <div class="ct">◆ 一句话决策法</div>
+      <p>问自己："我的 Agent 最难的部分是什么？"
+      <strong>多角色协调 → CrewAI；跨多步骤的状态分支管理 → LangGraph；靠丰富的工具生态取胜 → Claude Agent SDK；让非工程师也能搭 → Dify。
+      如果你刚开始不知道需要什么 → 先用原始 API 手写两周。</strong>你会因为亲自踩到那些坑，而真正理解框架存在的意义。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 MCP ============ -->
+<section id="s4">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 4</span>
+      <h2>MCP：2026 年最值得单独投入的一块</h2>
+      <p class="sec-sub">如果你只能在这份路线里挑一件"别人还没普遍会、但企业已经开始要"的技能，那就是 MCP。</p>
+    </div>
+
+    <p>Model Context Protocol 是 Anthropic 提出的开放标准，被比喻为 <strong>AI 应用的 USB-C</strong>：一次写好一个 MCP Server，Claude、各种 IDE、各种 Agent 框架都能直接调用。
+    它的价值在于网络效应——工具被包装成 MCP Server 后，所有 MCP 兼容系统立即可用。</p>
+
+    <div class="grid2" style="margin-top:18px">
+      <div>
+        <div class="mini-h">必 学 清 单</div>
+        <ul class="check">
+          <li><strong>架构</strong>：Host / Client / Server 三者关系</li>
+          <li><strong>三大原语</strong>：Tools（工具）、Resources（资源）、Prompts（提示模板）</li>
+          <li><strong>传输层</strong>：stdio 与 HTTP + SSE</li>
+          <li><strong>动手</strong>：用 Python 或 TypeScript 写一个自己的 MCP Server</li>
+          <li><strong>发布</strong>：推到 npm / PyPI，并验证能在 Claude Code 或 Cursor 里跑通</li>
+        </ul>
+      </div>
+      <div>
+        <div class="mini-h">面 试 加 分 点</div>
+        <ul class="check">
+          <li><strong>工具契约设计</strong>：不只是写出工具，而是写出模型在模糊场景下也能用对的工具</li>
+          <li><strong>权限最小化</strong>：每个 MCP 连接都是一份凭证，要做最小权限边界</li>
+          <li><strong>提示注入意识</strong>：工具返回值是不可信输入，不能让它直接驱动危险操作</li>
+          <li><strong>知道什么时候不用 MCP</strong>：固定流程用传统连接器更简单更安全</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout c-warn">
+      <div class="ct">⚠ 一个高级判断力信号</div>
+      <p>做一个练习：<strong>把同一个能力实现两遍</strong>——先做成固定工作流（显式输入输出、测失败、测幂等），再只把这一个能力通过 MCP 暴露出去，配只读凭证，测对抗性 Prompt，记录调用日志，
+      对任何写操作加人工审批边界。然后在博客里写清楚：<strong>为什么先用确定性工作流、MCP 在哪一点上真的增加了价值、你刻意没有暴露什么、如何限制了爆炸半径。</strong>
+      这篇东西在面试里的杀伤力，比十个课程证书都大。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 生产化 ============ -->
+<section id="s5">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 5</span>
+      <h2>可观测与评估：真正的分水岭</h2>
+      <p class="sec-sub">Agent 的不确定性让传统可观测性方案完全失效——<strong>你无法用 HTTP 状态码判断一个"幻觉回答"是不是 Bug</strong>。这就是为什么这块内容值得单独成章。</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th style="width:110px">维度</th><th>传统 APM</th><th>Agent 可观测性</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>输出确定性</strong></td><td>相同输入 → 相同输出</td><td>相同输入 → 不同输出</td></tr>
+          <tr><td><strong>错误定义</strong></td><td>HTTP 5xx / 抛异常</td><td><strong>语义错误</strong>：幻觉、答非所问、有害</td></tr>
+          <tr><td><strong>调用链深度</strong></td><td>通常 3-10 跳</td><td>单次请求可达 10-50 次 LLM 调用</td></tr>
+          <tr><td><strong>根因分析</strong></td><td>堆栈追踪</td><td>需要<strong>语义级推理路径回溯</strong></td></tr>
+          <tr><td><strong>成本模型</strong></td><td>固定基础设施成本</td><td>按 Token 动态计费，<strong>成本不可预测</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>三大支柱，缺一不可</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:120px">支柱</th><th>解决什么</th><th style="width:280px">工具</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Trace</strong><br><span style="color:var(--txt-3);font-size:12px">追踪</span></td><td>发生了什么。每一次 LLM 调用、工具调用、状态转移都记成 Span，可回放</td><td>LangSmith / <strong>Langfuse</strong>（MIT 开源可自托管，推荐自学者）/ Arize Phoenix</td></tr>
+          <tr><td><strong>Eval</strong><br><span style="color:var(--txt-3);font-size:12px">评估</span></td><td>质量如何。<strong>Agent 没法写传统单元测试，Eval 就是它的测试体系</strong></td><td>自建评测集 20-50 条 + RAGAS / DeepEval / Promptfoo + LLM-as-Judge</td></tr>
+          <tr><td><strong>Debug</strong><br><span style="color:var(--txt-3);font-size:12px">调试</span></td><td>为什么出错。识别故障模式并根因定位</td><td>5 类典型故障：<strong>无限循环、工具误用、幻觉行动、上下文溢出、推理漂移</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout c-good">
+      <div class="ct">✓ 给你的项目加上这套东西</div>
+      <p>落地三阶段：<br>
+      <strong>① 打基础</strong>：接入 Tracing，加确定性检查（调用的工具对不对、顺序对不对、格式合规吗），从生产 Trace 里人工筛 20-50 条建第一个数据集，跑第一次离线 Eval。<br>
+      <strong>② 建闭环</strong>：发布前跑回归测试，把线上失败案例转成数据集样例，<strong>每次改 Prompt 或换模型都跑一次对比实验</strong>。<br>
+      <strong>③ 持续监控</strong>：线上采样跑在线评估器，对负面分数、延迟、错误率设告警，被标记的 Trace 回流进数据集。</p>
+    </div>
+
+    <div class="callout c-info">
+      <div class="ct">◆ 面试里的黄金叙事</div>
+      <p>准备一个真实故事：<strong>"某个线上 Trace 暴露了问题 → 我判断根因是工具描述歧义 / 缺少护栏 / 模型推理不佳 → 我改了什么 → 如何加进 eval 防回归。"</strong>
+      行业里能读懂工具调用 Trace 并正确诊断失败根因的人，远少于会接 MCP Server 的人。<strong>这个诊断能力就是议价权。</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 作品集 ============ -->
+<section id="s6">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 6</span>
+      <h2>三个必须做的项目</h2>
+      <p class="sec-sub">项目的选择标准只有一条：<strong>能不能在 15 分钟面试里讲清楚"我做了什么决策、为什么这么做、踩了什么坑"。</strong>数量不重要，深度决定一切。</p>
+    </div>
+
+    <div class="proj">
+      <div class="proj-hd">
+        <span class="proj-lv lv1">项目 ①</span>
+        <span class="proj-name">手写 ReAct Agent（不用任何框架）</span>
+      </div>
+      <p class="proj-desc">带 3-5 个真实工具的完整推理循环，有错误恢复、有防死循环、有对话历史管理。<strong>这个项目的作用不是炫技，是证明你懂原理。</strong></p>
+      <dl class="proj-meta">
+        <dt>技术点</dt><dd>原始 API 调用 · Function Calling Schema 设计 · 循环终止条件 · 上下文裁剪</dd>
+        <dt>必须包含</dt><dd>README 里的架构图 · 至少 3 个工具 · 工具调用失败的错误回传设计</dd>
+        <dt>面试话术</dt><dd>"我先手写了一遍，才知道 LangGraph 的 Checkpoint 和条件边到底在替我解决什么问题"</dd>
+      </dl>
+    </div>
+
+    <div class="proj">
+      <div class="proj-hd">
+        <span class="proj-lv lv2">项目 ②</span>
+        <span class="proj-name">带引用溯源的企业知识库问答 Agent</span>
+      </div>
+      <p class="proj-desc">这是<strong>企业真实需求最集中的场景</strong>，也是 JD 里出现频率最高的业务形态。核心不是"能问答"，而是"答得对且可追溯"。</p>
+      <dl class="proj-meta">
+        <dt>技术点</dt><dd>文档解析 · 分块策略对比 · Embedding · 混合检索（向量+关键词）· Rerank 重排 · 引用溯源</dd>
+        <dt>必须包含</dt><dd><strong>Eval 报告</strong>（准确率、召回率、幻觉率的量化数字）· Tracing 面板截图 · 不同分块策略的对比实验</dd>
+        <dt>面试话术</dt><dd>"我把分块策略从固定长度改成语义分块后，答案准确率从 X% 提到 Y%——这是我的 eval 报告"</dd>
+      </dl>
+    </div>
+
+    <div class="proj">
+      <div class="proj-hd">
+        <span class="proj-lv lv3">项目 ③</span>
+        <span class="proj-name">多 Agent 系统 + 自建 MCP Server（生产化部署）</span>
+      </div>
+      <p class="proj-desc">用 LangGraph 搭一个多步骤协作系统（如：研究助理 = 规划 → 检索 → 撰写 → 审核），外接自己写的 MCP Server，<strong>完整部署上线</strong>并接好可观测与评估。</p>
+      <dl class="proj-meta">
+        <dt>技术点</dt><dd>LangGraph 状态图 · Checkpoint 断点续跑 · Human-in-the-loop 审批 · MCP Server 开发 · Docker 部署</dd>
+        <dt>必须包含</dt><dd><strong>Tracing 面板 + Eval 报告 + 成本账单</strong>三件套 · 公开的 MCP Server 包 · 一篇复盘博客</dd>
+        <dt>面试话术</dt><dd>"危险操作我加了审批门，工具权限做了最小化，工具返回值我按不可信输入处理"</dd>
+      </dl>
+    </div>
+
+    <div class="callout c-warn">
+      <div class="ct">⚠ 最常见的失败方式</div>
+      <p>见过太多人收藏了 100 个教程、跟着敲了 50 个 demo，但<strong>从来没有独立从零到一完成过一个项目</strong>。
+      教程项目在面试官眼里等于零——因为其他人交的简历上也是同一份。<strong>你要做的是"从零到一"，不是"跟着做一遍"。</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 投递策略 ============ -->
+<section id="s7">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 7</span>
+      <h2>投递策略：先进场，再换场</h2>
+      <p class="sec-sub">第一份工作不一定要进大厂。<strong>拿到一年 Agent 实战经验后，学历和经验门槛对你的影响都会大幅下降。</strong></p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:180px">公司类型</th><th style="width:80px">推荐度</th><th>分析</th></tr></thead>
+        <tbody>
+          <tr><td><strong>AI 创业公司</strong></td><td style="color:var(--amber)">★★★★★</td><td>最看重实际能力，不太卡学历，成长最快。<strong>优先投</strong></td></tr>
+          <tr><td><strong>传统企业 AI 部门</strong></td><td style="color:var(--amber)">★★★★</td><td>需求量大，竞争者相对少，能接触到真实业务场景</td></tr>
+          <tr><td><strong>AI 应用外包 / 方案商</strong></td><td style="color:var(--amber)">★★★</td><td>能快速积累项目经验，作为跳板不错，注意别陷在重复劳动里</td></tr>
+          <tr><td><strong>实习转正</strong></td><td style="color:var(--amber)">★★★</td><td>曲线进入大厂体系的有效路径</td></tr>
+          <tr><td><strong>大厂正式校招</strong></td><td style="color:var(--txt-3)">★★</td><td>有机会，但需要很强的项目 + 面试表现。作为冲刺目标，别作为唯一目标</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>三条绕过简历关的路径</h3>
+    <div class="qa">
+      <div class="qa-item">
+        <div class="qa-q">1. 技术博客：把踩过的坑和架构设计思路写出来</div>
+        <p class="qa-a">有真实案例：面试官当场在电脑上打开候选人的博客，边看边讨论，最终顺利拿到 offer。<strong>当 HR 搜你的名字能搜到内容时，学历的权重就下降了。</strong>建议至少写 5-8 篇，覆盖 RAG、LangGraph、MCP、Eval 四个主题。</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">2. GitHub 作品集：有 star 的项目就是你的名片</div>
+        <p class="qa-a">规范的 commit 记录、清晰的 README、架构图、eval 报告。<strong>README 的质量本身就是工程能力的体现</strong>，比项目复杂度更重要。</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">3. 简历改造：全部改成量化表达</div>
+        <p class="qa-a">❌ "使用 LangChain 开发了知识库问答系统" → ✅ "设计混合检索 + Rerank 方案，通过自建 50 条评测集验证，将答案准确率从 62% 提升至 89%，幻觉率下降 40%"。<strong>后者的面试邀请率至少翻倍。</strong></p>
+      </div>
+    </div>
+
+    <div class="callout c-info">
+      <div class="ct">◆ 时间节奏建议</div>
+      <p>不要等"学完了"再投。<strong>第 12 周就可以开始投练手公司</strong>——面试本身就是最高效的学习反馈，被问倒的地方就是你下一周的学习清单。
+      先投 10 家试错、复盘、迭代简历，再冲目标公司。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 面试考点 ============ -->
+<section id="s8">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 8</span>
+      <h2>面试高频考点自查清单</h2>
+      <p class="sec-sub">以下每一条都应该能脱口而出。<strong>答不上来的，就是你接下来两周的补强方向。</strong></p>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <div class="mini-h">工 程 底 座</div>
+        <ul>
+          <li>SSE 流式输出怎么实现？和普通 HTTP 响应有什么区别？</li>
+          <li>Agent 场景为什么必须用异步？<code>async/await</code> 的调度原理？</li>
+          <li>接口超时、模型限流、调用失败分别怎么重试？幂等性怎么保证？</li>
+          <li>Pydantic 模型校验在工具调用里起什么作用？</li>
+        </ul>
+        <div class="mini-h" style="margin-top:22px">A G E N T 原 理</div>
+        <ul>
+          <li>ReAct 的完整循环是什么？终止条件怎么设计？怎么防死循环？</li>
+          <li>ReAct / Plan-and-Execute / Self-Reflect 有什么区别？各自适用什么场景？</li>
+          <li>Function Calling 的 Schema 怎么设计才能让模型用对？</li>
+          <li>工具调用失败时，错误信息应该怎么写给模型看？</li>
+          <li>多轮对话的上下文怎么管理？超长怎么办？</li>
+        </ul>
+      </div>
+      <div>
+        <div class="mini-h">R A G</div>
+        <ul>
+          <li>分块策略有哪几种？各自的取舍是什么？</li>
+          <li>为什么需要混合检索？向量检索的短板在哪？</li>
+          <li>Rerank 解决什么问题？放在链路的哪一步？</li>
+          <li>RAG 答错了，你怎么定位是检索问题还是生成问题？</li>
+          <li>怎么做引用溯源？为什么企业特别在意这个？</li>
+        </ul>
+        <div class="mini-h" style="margin-top:22px">M C P 与 生 产 化</div>
+        <ul>
+          <li>MCP 的 Host / Client / Server 分别是什么？三大原语是什么？</li>
+          <li>stdio 和 HTTP+SSE 两种传输方式怎么选？</li>
+          <li>工具权限怎么做到最小化？什么是爆炸半径？</li>
+          <li>Agent 怎么做"单元测试"？Eval 数据集怎么建？</li>
+          <li>Trace 里能看到什么？怎么从 Trace 定位失败根因？</li>
+          <li>Token 成本怎么优化？有哪些手段？</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout c-good">
+      <div class="ct">✓ 一道几乎必考的开放题</div>
+      <p><strong>"你这个 Agent 上线后，怎么知道它还在正常工作？"</strong><br>
+      高分答案结构：Trace 全链路埋点 → 线上采样跑在线评估器（LLM-as-Judge + 代码断言）→ 对负面分数和延迟设告警 → 被标记的 Trace 进人工标注队列 → 人工修正的 Trace 沉淀成回归数据集 → <strong>把 Eval 挂进 CI 当发布门禁</strong>。
+      能讲到"生产 Trace 反哺测试集"这个闭环，基本就是 senior 级别的认知了。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 避坑 ============ -->
+<section id="s9">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">STEP 9</span>
+      <h2>避坑清单：这些路走不通</h2>
+      <p class="sec-sub">以下每一条都是大量自学者验证过的弯路。<strong>省下来的时间，足够你多做两个项目。</strong></p>
+    </div>
+
+    <div class="qa">
+      <div class="qa-item">
+        <div class="qa-q">✕ 一上来就啃 Transformer 论文、啃数学推导、啃预训练</div>
+        <p class="qa-a">你投的是<strong>应用开发岗，不是算法岗</strong>。这些知识在面试里的边际收益极低。你只需要理解到"上下文窗口、Token、Temperature、模型能力边界"这一层就够用。把省下的 200 小时投到 Eval 和部署上，回报率高十倍。</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">✕ 花大量时间学 Prompt Engineering 的"咒语"和技巧合集</div>
+        <p class="qa-a">2026 年行业的共识是：<strong>Context Engineering 已经取代 Prompt Engineering 成为更高杠杆的技能</strong>。企业要的不是会写漂亮提示词的人，是能决定"什么信息在什么时机进入上下文窗口"的人。别背咒语，去研究上下文管理。</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">✕ 把 Dify / Coze 当成核心技术栈</div>
+        <p class="qa-a">低代码平台是给非工程师用的。<strong>你靠它拿不到技术溢价</strong>，而且它的抽象层很快就会成为天花板——复杂状态管理、自定义工具逻辑、生产调试全都受限。会用、能讲清楚利弊就够了，别把它写进简历的"核心技能"。</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">✕ 跟着教程敲完 10 个 demo，以为自己会了</div>
+        <p class="qa-a">教程项目在面试官眼里等于零，因为所有人交的简历上都有同一份。<strong>判断标准很简单：你能不能不看教程，从空白文件开始复现出来？</strong>不能，就是没学会。</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">✕ 只学框架，不手写原理</div>
+        <p class="qa-a">用框架搭出一个 Agent 大概两小时，但面试只会用框架的人，和懂原理的人<strong>薪资差一档</strong>。花两周手写 ReAct 循环，是这份路线里投入产出比最高的投资。</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">✕ 陷入学历焦虑的内耗</div>
+        <p class="qa-a">你改变不了过去，但<strong>在 AI 应用这个赛道上，你做出来的东西就是你的学历</strong>。这条路线上，作品集的实际权重高于学校标签——这是它相比传统后端岗最大的红利。</p>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q">✕ 只学不做 / 只做不写</div>
+        <p class="qa-a">做出来只是完成了一半。<strong>把它写出来（博客）、讲出来（README、面试叙事），才能转化成求职竞争力。</strong>不会表达的项目等于不存在。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Agent 开发求职路线 · 2026 版 · 基于真实招聘 JD 与行业实践整理<br>
+    <span style="color:var(--txt-3);opacity:.7">路线会过时，判断力不会。保持对生产环境的好奇心，比追框架版本更重要。</span>
+  </div>
+</footer>
+
+</body>
+</html>
